@@ -188,6 +188,10 @@ function! test#strategy#tslime(cmd) abort
   call Send_to_Tmux(s:pretty_command(a:cmd)."\n")
 endfunction
 
+function! test#strategy#vimtslime(cmd) abort
+  echo "vimtslime configured"
+endfunction
+
 function! test#strategy#slimux(cmd) abort
   if exists('g:test#preserve_screen') && !g:test#preserve_screen
     call SlimuxSendCommand(s:pretty_command(a:cmd))
