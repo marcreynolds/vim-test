@@ -189,7 +189,8 @@ function! test#strategy#tslime(cmd) abort
 endfunction
 
 function! test#strategy#vimtslime(cmd) abort
-  echo "vimtslime configured"
+  echo s:pretty_command(a:cmd)."\r"
+  call slime#send(s:pretty_command(a:cmd)."\r")
 endfunction
 
 function! test#strategy#slimux(cmd) abort
