@@ -1,4 +1,5 @@
 # test.vim
+
 ![CI workflow](https://github.com/vim-test/vim-test/actions/workflows/ci.yml/badge.svg)
 
 A Vim wrapper for running tests on different granularities.
@@ -52,13 +53,14 @@ runners are supported:
 |        **Zig** | ZigTest                                                                                                            | `zigtest`                                                                                                                                    |
 |        **Gleam** | GleamTest                                                                                                            | `gleamtest`                                                                                                                                    |
 
-
 ## Setup
 
 Using [vim-plug](https://github.com/junegunn/vim-plug), add
+
 ```vim
 Plug 'vim-test/vim-test'
 ```
+
 to your `.vimrc` file (see vim-plug documentation for where), and run `:PlugInstall`.
 
 Add your preferred mappings to your `.vimrc` file:
@@ -102,6 +104,7 @@ let test#strategy = "dispatch"
 | **[Spawn]**                     | `spawn` `spawn_background`                                  | Runs test commands using dispatch.vim `:Spawn` or `:Spawn!`.                                                                                                      |
 | **[Vimux]**                     | `vimux`                                                     | Runs test commands in a small tmux pane at the bottom of your terminal.                                                                                           |
 | **[Tslime]**                    | `tslime`                                                    | Runs test commands in a tmux pane you specify.                                                                                                                    |
+| **[Vslime]**                    | `vslime`                                                    | Runs test commands in an environment you specify. Currently requires a [specific branch of vim-test to work](https://github.com/marcreynolds/vim-test).                                                                                                                    |
 | **[Slimux]**                    | `slimux`                                                    | Runs test commands in a tmux pane you specify.                                                                                                                    |
 | **[Neoterm]**                   | `neoterm`                                                   | Runs test commands with `:T`, see neoterm docs for display customization.                                                                                         |
 | **[Toggleterm]**                | `toggleterm`                                                | Runs test commands with `TermExec`                                                                                                          |
@@ -189,11 +192,11 @@ let test#neovim_sticky#reopen_window = 1 " Reopen terminal split if not visible
 Before you can run tests in a kitty terminal window using the kitty strategy,
 please make sure:
 
-- you start kitty setting up remote control and specifying a socket for kitty
+* you start kitty setting up remote control and specifying a socket for kitty
   to listen to, like this:
 
   ```
-  $ kitty -o allow_remote_control=yes --listen-on unix:/tmp/mykitty
+  kitty -o allow_remote_control=yes --listen-on unix:/tmp/mykitty
   ```
 
   or via `kitty.conf`:
@@ -203,18 +206,17 @@ please make sure:
   listen_on unix:/tmp/mykitty
   ```
 
-- you export an environment variable `$KITTY_LISTEN_ON` with the same socket, like:
+* you export an environment variable `$KITTY_LISTEN_ON` with the same socket, like:
 
   ```
-  $ export KITTY_LISTEN_ON=unix:/tmp/mykitty
+  export KITTY_LISTEN_ON=unix:/tmp/mykitty
   ```
 
   or if via `kitty.conf` (it appends kitty's PID):
 
   ```
-  $ export KITTY_LISTEN_ON=unix:/tmp/mykitty-$PPID
+  export KITTY_LISTEN_ON=unix:/tmp/mykitty-$PPID
   ```
-
 
 ### Shtuff strategy setup
 
@@ -228,7 +230,7 @@ vimrc file.
 In your terminal of choice:
 
 ```
-$ shtuff as devrunner
+shtuff as devrunner
 ```
 
 And in your vimrc:
@@ -254,11 +256,11 @@ Note: the base `asyncrun` option will be affected by your global asyncrun settin
 If you want your test results to appear in the quickfix window, use one of the
 following strategies:
 
- * Make
- * Neomake
- * MakeGreen
- * Dispatch.vim
- * `asyncrun_background`
+* Make
+* Neomake
+* MakeGreen
+* Dispatch.vim
+* `asyncrun_background`
 
 Regardless of which you pick, it's recommended you have Dispatch.vim installed as the
 strategies will automatically use it to determine the correct compiler, ensuring the
@@ -403,6 +405,7 @@ let test#rust#cargotest#test_options = {
 ```
 
 The gotest runner let you specify the -args argument as follows:
+
 ```vim
 let test#go#gotest#args = 'a=b'
 ```
@@ -469,6 +472,7 @@ let test#project_root = "/path/to/your/project"
 ```
 
 Alternatively you can pass in a function that'll be evaluated before each test run.
+
 ```vim
 function! CustomPath()
   return "~/Project"
@@ -517,7 +521,6 @@ command! -nargs=* -bar IntegrationTest call test#run('integration', split(<q-arg
 
 With this set up you can run your integration tests with the :IntegrationTest plugin for that single file and module. As there might be some dependencies between the maven modules you might need to pass in other parameters for the tests just like any other commands in vim-test. Here is a mapping with other optional parameters:
 
-
 ``` vim
 nnoremap <silent><leader>itf :IntegrationTest -Dtest=foo -DfailIfNoTests=false -am -Dpmd.skip=true -Dcheckstyle.skip=true<CR>
 ```
@@ -532,7 +535,7 @@ The above command makes sure that no surefire tests will be run (by passing in a
 
 Only for maven, the commands `:TestFile` and `:TestNearest` use the same strategy and you can use them to run the integration tests from file or method.
 
-They use `mvn verify` if the filename ends with *IT, *ITCase or *Integration. The most common plugins are skipped in this strategy to improve the test time.
+They use `mvn verify` if the filename ends with *IT,*ITCase or *Integration. The most common plugins are skipped in this strategy to improve the test time.
 
 * Sonar
 * PIT
@@ -588,7 +591,7 @@ let g:test#scala#blooptest#project_name = 'custom-project'
 With this configuration, the test runner will run test for `custom-project`:
 
 ```sh
-$ bloop test custom-project
+bloop test custom-project
 ```
 
 #### Go
@@ -664,7 +667,6 @@ let g:test#haskell#cabaltest#test_command = 'test --test-show-details=direct'
 
 The runners currently supports running tests with the [HSpec](http://hackage.haskell.org/package/hspec) framework.
 
-
 #### PHP
 
 The PHPUnit runner has support for the alternate runner [ParaTest](https://github.com/paratestphp/paratest) and will automatically use it if present in `./vendor/bin`. If you prefer to use PHPUnit then override the executable:
@@ -680,31 +682,43 @@ let test#php#phpunit#executable = 'php artisan test'
 ```
 
 #### C++
+
 Pattern for Test File: We assume all your test files are prefixed with "test_" or "Test". If not, override the following:
+
 ```
 "Default
 let g:test#cpp#catch2#file_pattern = '\v[tT]est.*(\.cpp)$'
 ```
+
 File and Individual Test Case: We assume you are using make to compile your executables, whose names are exactly the same as the test file w/o the extension. If you would like to use change the make command, override the following:
+
 ```
 let g:test#cpp#catch2#make_command = "make"
 ```
+
 Creating Test Executables: We assume that a Makefile is located in a "build" directory directly below the project root. If not, override the following:
+
 ```
 " If Makefile is at top of the project root, do this instead
 let g:test#cpp#catch2#relToProject_build_dir = "."
 ```
+
 We assume that your compiled executables are stored in `build` directory. If not, you can override this with:
+
 ```vim
 let g:test#cpp#catch2#bin_dir = "../path/to/your/binaries/dir"
 ```
+
 Suite: We assume that you are using Cmake as your build system, and are registering each test file to it. If not, override the following command.
+
 ```vim
 let g:test#cpp#catch2#suite_command = "ctest --output-on-failure"
 ```
 
 #### Rust
+
 If the `nextest` cargo subcommand is available, cargo-nextest is used. `cargo test` is used otherwise. To force a specific runner:
+
 ```vim
 let g:test#rust#runner = 'cargotest'
 ```
@@ -737,6 +751,7 @@ application file, and test.vim will automatically try to run the
 command on the "alternate" test file.
 
 You can disable this integration by doing
+
 ```vim
 let g:test#no_alternate = 1
 ```
@@ -806,13 +821,13 @@ Tests are run using a Ruby test runner, so you'll have to have Ruby installed.
 Then run
 
 ```sh
-$ gem install vim-flavor
+gem install vim-flavor
 ```
 
 Now you can run tests with
 
 ```sh
-$ vim-flavor test spec/
+vim-flavor test spec/
 ```
 
 Or if you're inside of Vim, you can simply run `:VSpec` provided by test.vim.
@@ -849,6 +864,7 @@ Copyright © Janko Marohnić. Distributed under the same terms as Vim itself. Se
 [Dispatch]: https://github.com/tpope/vim-dispatch
 [Vimux]: https://github.com/benmills/vimux
 [Tslime]: https://github.com/jgdavey/tslime.vim
+[Vslime]: https://github.com/jpalardy/vim-slime
 [Slimux]: https://github.com/esamattis/slimux
 [Vim&nbsp;Tmux&nbsp;Runner]: https://github.com/christoomey/vim-tmux-runner
 [Tmuxify]: https://github.com/jebaum/vim-tmuxify
@@ -864,6 +880,5 @@ Copyright © Janko Marohnić. Distributed under the same terms as Vim itself. Se
 [Kitty]: https://github.com/kovidgoyal/kitty
 [Shtuff]: https://github.com/jfly/shtuff
 [Harpoon]: https://github.com/ThePrimeagen/harpoon
-[Ember.js]: https://github.com/emberjs/ember.js
 [Toggleterm]: https://github.com/akinsho/toggleterm.nvim
 [WezTerm]: https://github.com/wez/wezterm
