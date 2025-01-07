@@ -188,7 +188,7 @@ function! test#strategy#tslime(cmd) abort
   call Send_to_Tmux(s:pretty_command(a:cmd)."\n")
 endfunction
 
-function! test#strategy#vimslime(cmd) abort
+function! test#strategy#vslime(cmd) abort
   call slime#send(s:pretty_command(a:cmd)."\r")
 endfunction
 
